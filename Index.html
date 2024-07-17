@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #0066cc;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      margin-top: 20px;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .adjective, .image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    .image {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .adjective {
+      font-size: 14px;
+      background-color: #e0f7fa;
+      padding: 5px;
+      border-radius: 5px;
+      text-align: center;
+      width: 100px; /* Ajustar ancho para que coincida con las imágenes */
+      height: 100px; /* Ajustar alto para que coincida con las imágenes */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .selected {
+      background-color: #b2ebf2;
+      border: 2px solid #00796b;
+    }
+
+    /* Flechas */
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      .adjective, .image-container {
+        margin: 10px 0;
+      }
+
+      .adjective {
+        width: 80px;
+        height: 80px;
+      }
+
+      .image {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
+  <title>Ejercicio de Adjetivos</title>
+</head>
+<body>
+  <h1>Match Adjectives with Images</h1>
+  <h2>Click on the adjectives and then on the images to match them</h2>
+  
+  <div class="container">
+    <div class="column" id="adjectives">
+      <div class="adjective" data-adjective="happy">Happy</div>
+      <div class="adjective" data-adjective="sad">Sad</div>
+      <div class="adjective" data-adjective="angry">Angry</div>
+      <div class="adjective" data-adjective="scared">Scared</div>
+      <div class="adjective" data-adjective="excited">Excited</div>
+      <div class="adjective" data-adjective="bored">Bored</div>
+      <div class="adjective" data-adjective="confused">Confused</div>
+      <div class="adjective" data-adjective="surprised">Surprised</div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <div class="column" id="images">
+      <div class="image-container" data-adjective="happy">
+        <img src="https://drive.google.com/uc?export=view&id=1ABCD2EFGHIJKLMN" alt="Happy Person" class="image">
+      </div>
+      <div class="image-container" data-adjective="sad">
+        <img src="https://drive.google.com/uc?export=view&id=1ABCD2EFGHIJKLMN" alt="Sad Person" class="image">
+      </div>
+      <div class="image-container" data-adjective="angry">
+        <img src="https://drive.google.com/uc?export=view&id=1ABCD2EFGHIJKLMN" alt="Angry Person" class="image">
+      </div>
+      <div class="image-container" data-adjective="scared">
+        <img src="https://drive.google.com/uc?export=view&id=1ABCD2EFGHIJKLMN" alt="Scared Person" class="image">
+      </div>
+      <div class="image-container" data-adjective="excited">
+        <img src="https://drive.google.com/uc?export=view&id=1ABCD2EFGHIJKLMN" alt="Excited Person" class="image">
+      </div>
+      <div class="image-container" data-adjective="bored">
+        <img src="https://drive.google.com/uc?export=view&id=1ABCD2EFGHIJKLMN" alt="Bored Person" class="image">
+      </div>
+      <div class="image-container" data-adjective="confused">
+        <img src="https://drive.google.com/uc?export=view&id=1ABCD2EFGHIJKLMN" alt="Confused Person" class="image">
+      </div>
+      <div class="image-container" data-adjective="surprised">
+        <img src="https://drive.google.com/uc?export=view&id=1ABCD2EFGHIJKLMN" alt="Surprised Person" class="image">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const adjectives = document.querySelectorAll('.adjective');
+    const imageContainers = document.querySelectorAll('.image-container');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let selectedAdjective = null;
+
+    canvas.width = document.querySelector('.container').offsetWidth;
+    canvas.height = document.querySelector('.container').offsetHeight;
+
+    adjectives.forEach(adjective => {
+      adjective.addEventListener('click', () => {
+        if (selectedAdjective) {
+          selectedAdjective.classList.remove('selected');
+        }
+        selectedAdjective = adjective;
+        adjective.classList.add('selected');
+      });
+    });
+
+    imageContainers.forEach(container => {
+      container.addEventListener('click', () => {
+        if (selectedAdjective) {
+          const adjectiveRect = selectedAdjective.getBoundingClientRect();
+          const containerRect = container.getBoundingClientRect();
+
+          const startX = adjectiveRect.left + adjectiveRect.width / 2;
+          const startY = adjectiveRect.top + adjectiveRect.height / 2;
+          const endX = containerRect.left + containerRect.width / 2;
+          const endY = containerRect.top + containerRect.height / 2;
+
+          ctx.beginPath();
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(endX, endY);
+          ctx.strokeStyle = '#0066cc';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          selectedAdjective.classList.remove('selected');
+          selectedAdjective = null;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
