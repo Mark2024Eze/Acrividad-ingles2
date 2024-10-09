@@ -12,8 +12,47 @@
       font-family: 'Montserrat', sans-serif;
       background-color: #ffffff;
       color: #333;
+      
     }
 
+    /* Estilo para el logo de fondo */
+    .background-logo {
+      background-image: url('https://github.com/Mark2024Eze/Proyecto-para-ingles/blob/main/instituto%20overcome.jpg?raw=true'); /* URL del logo */
+      background-size: 25%; /* Ajusta el tamaño de la imagen de fondo */
+      background-repeat: no-repeat; /* Evita que se repita la imagen */
+      background-position: center 300px; /* Centra la imagen */
+      opacity: 0.1; /* Ajusta la opacidad para que sea tenue */
+      position: absolute; /* Posiciona el logo de fondo */
+      top: 0; /* Alinea al principio */
+      left: 0; /* Alinea al inicio */
+      right: 0; /* Alinea al final */
+      bottom: 0; /* Alinea al final */
+      z-index: -1; /* Coloca detrás de otros elementos */
+    }
+
+   /* Ajustes para pantallas más pequeñas, como móviles */
+   @media (max-width: 768px) {
+  .background-logo {
+    background-size: 300px auto; /* Redimensiona el logo para móviles */
+    background-position: center 150px; /* Baja la imagen 150px en móviles */
+  }
+    }
+
+    /* Ajustes para pantallas medianas, como tablets */
+    @media (min-width: 769px) and (max-width: 1200px) {
+     .background-logo {
+     background-size: 500px auto; /* Tamaño intermedio del logo */
+     background-position: center 200px; /* Ajusta la posición del logo */
+    }
+   }
+
+    /* Ajustes para pantallas grandes, como PC */
+    @media (min-width: 1201px) {
+    .background-logo {
+     background-size: 25%; /* Tamaño más grande del logo en PC */
+     background-position: center 300px; /* Ajusta la posición del logo */
+    }
+   }
     h1, h2 {
       text-align: center;
       color: #0066cc;
@@ -33,7 +72,7 @@
       gap: 20px;
     }
 
-    .adjective, .image-container {
+    .animal, .image-container {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -50,7 +89,7 @@
       border-radius: 5px;
     }
 
-    .adjective {
+    .animal {
       font-size: 14px;
       font-weight: bold;
       background-color: #e0f7fa;
@@ -65,6 +104,26 @@
       position: relative;
     }
 
+    .animal-button, .image-button {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .animal-button:hover, .image-button:hover {
+      background-color: #004d40;
+    }
+
     .selected {
       background-color: #b2ebf2;
       border: 2px solid #00796b;
@@ -73,6 +132,11 @@
     .incorrect {
       background-color: #ffcdd2;
       border: 2px solid #d32f2f;
+    }
+
+    .correct {
+      background-color: #c8e6c9;
+      border: 2px solid #388e3c;
     }
 
     canvas {
@@ -85,11 +149,11 @@
     }
 
     @media (max-width: 600px) {
-      .adjective, .image-container {
+      .animal, .image-container {
         margin: 10px 0;
       }
 
-      .adjective {
+      .animal {
         width: 80px;
         height: 80px;
       }
@@ -122,15 +186,33 @@
     .error-bar {
       background-color: #f44336;
     }
+
+    .reset-button, .check-button {
+      display: block;
+      width: 100%;
+      max-width: 200px;
+      margin: 20px auto;
+      padding: 10px;
+      text-align: center;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .reset-button:hover, .check-button:hover {
+      background-color: #004d40;
+    }
   </style>
   <title>Match the Adjectives</title>
 </head>
 <body>
+  <div class="background-logo"></div> <!-- Logo de fondo -->
   <div style="display: flex; align-items: center;">
-        <img src="https://github.com/Mark2024Eze/Proyecto-para-ingles/blob/main/instituto%20overcome.jpg?raw=true" alt="Instituto Overcome" style="max-width: 100px; margin-right: 20px;">
-        <h1>Match the Adjectives with the Images</h1>
-        
-    </div>
+    <img src="https://github.com/Mark2024Eze/Proyecto-para-ingles/blob/main/instituto%20overcome.jpg?raw=true" alt="Instituto Overcome" style="max-width: 100px; margin-right: 20px;">
+    <h1>Match the Adjective with the Images</h1>
+  </div>
   <div class="progress-container">
     <div id="progressBar" class="progress-bar">0%</div>
   </div>
@@ -140,162 +222,244 @@
   <div class="error-container">
     <div id="errorBar" class="error-bar">Errors: 0</div>
   </div>
-  
+
   <div class="container">
-    <div class="column" id="adjectives">
-      <div class="adjective" data-adjective="happy">Happy</div>
-      <div class="adjective" data-adjective="sad">Sad</div>
-      <div class="adjective" data-adjective="angry">Angry</div>
-      <div class="adjective" data-adjective="scared">Scared</div>
-      <div class="adjective" data-adjective="excited">Excited</div>
-      <div class="adjective" data-adjective="bored">Bored</div>
-      <div class="adjective" data-adjective="confused">Confused</div>
-      <div class="adjective" data-adjective="surprised">Surprised</div>
-    </div>
+    <div class="column" id="animals">
+      <div class="animal" data-animal="Confused">
+        Confused
+        <button class="animal-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-HCKibU_bhz0lq.mp3">🔊</button>
+      </div>
+      <div class="animal" data-animal="Suprised">
+        Suprissed
+        <button class="animal-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-YhTcXy_pftysm.mp3">🔊</button>
+      </div>
+      <div class="animal" data-animal="Scared">
+        Scared
+        <button class="animal-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507990/luvvoice.com-20241009-9Gj4h4_mndwyd.mp3">🔊</button>
+      </div>
+      <div class="animal" data-animal="Excited">
+        Excited
+        <button class="animal-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-idNsrv_orkbyb.mp3">🔊</button>
+      </div>
+      <div class="animal" data-animal="Bored">
+        Bored
+        <button class="animal-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-npe4Fg_ozzyty.mp3">🔊</button>
+      </div>
+      <div class="animal" data-animal="Strong">
+        Strong
+        <button class="animal-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-o3uPEr_nyec3s.mp3">🔊</button>
+      </div>
+      <div class="animal" data-animal="Smart">
+        Smart
+        <button class="animal-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-s5HhQA_y3s8hg.mp3">🔊</button>
+      </div>
+      <div class="animal" data-animal="Happy">
+         Happy
+         <button class="animal-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-OjGbny_pr4jta.mp3">🔊</button>
+      </div>
+      <div class="animal" data-animal="Sad">
+         Sad
+         <button class="animal-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507988/luvvoice.com-20241009-RlVXYk_ieddiv.mp3">🔊</button>
+      </div>
+      <div class="animal" data-animal="Angry">
+         Angry
+         <button class="animal-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507990/luvvoice.com-20241009-dIc6WP_zvgtxn.mp3">🔊</button>
+      </div>
+      </div>
     <canvas id="canvas"></canvas>
     <div class="column" id="images">
-      <div class="image-container" data-adjective="happy">
-        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/nino-sonriente-aislado-rosa.png" alt="Happy Person" class="image">
+      <div class="image-container" data-animal="Happy">
+        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/nino-sonriente-aislado-rosa.png" alt="Bird" class="image">
+        <button class="image-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-OjGbny_pr4jta.mp3">🔊</button>
       </div>
-      <div class="image-container" data-adjective="angry">
-        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/retrato-nino-pequeno-lindo-molesto.png" alt="Angry Person" class="image">
+      <div class="image-container" data-animal="Sad">
+        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/retrato-persona-depresion.png" alt="Cat" class="image">
+        <button class="image-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507988/luvvoice.com-20241009-RlVXYk_ieddiv.mp3">🔊</button>
       </div>
-      <div class="image-container" data-adjective="bored">
-        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/hermosa-nina-jengibre-sentado-piernas-cruzadas-sobre-pared-blanca.png" alt="Bored Person" class="image">
+      <div class="image-container" data-animal="Angry">
+        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/retrato-nino-pequeno-lindo-molesto.png" alt="Dog" class="image">
+        <button class="image-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507990/luvvoice.com-20241009-dIc6WP_zvgtxn.mp3">🔊</button>
       </div>
-      <div class="image-container" data-adjective="excited">
-        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/expresiones-ninos.png" alt="Excited Person" class="image">
+      <div class="image-container" data-animal="Scared">
+        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/pequeno-lindo-nino-rubio-sorprendido-camiseta-roja-sosteniendo-cabeza-manos-mientras-mira-lado-pared-blanca.png" alt="Elephant" class="image">
+        <button class="image-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507990/luvvoice.com-20241009-9Gj4h4_mndwyd.mp3">🔊</button>
       </div>
-      <div class="image-container" data-adjective="sad">
-        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/retrato-persona-depresion.png" alt="Sad Person" class="image">
+      <div class="image-container" data-animal="Excited">
+        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/expresiones-ninos.png" alt="Giraffe" class="image">
+        <button class="image-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-idNsrv_orkbyb.mp3">🔊</button>
       </div>
-      <div class="image-container" data-adjective="confused">
-        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/chica-guapa-joven-haciendo-gesto-aislado-pared-blanca.png" alt="Confused Person" class="image">
+      <div class="image-container" data-animal="Bored">
+        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/hermosa-nina-jengibre-sentado-piernas-cruzadas-sobre-pared-blanca.png" alt="Lion" class="image">
+        <button class="image-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-npe4Fg_ozzyty.mp3">🔊</button>
       </div>
-      <div class="image-container" data-adjective="scared">
-        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/pequeno-lindo-nino-rubio-sorprendido-camiseta-roja-sosteniendo-cabeza-manos-mientras-mira-lado-pared-blanca.png" alt="Scared Person" class="image">
+      <div class="image-container" data-animal="Confused">
+        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/chica-guapa-joven-haciendo-gesto-aislado-pared-blanca.png" alt="Rabbit" class="image">
+        <button class="image-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-HCKibU_bhz0lq.mp3">🔊</button>
       </div>
-      <div class="image-container" data-adjective="surprised">
-        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/retrato-nino-sorprendido-manos-cabeza-mirando-camara-contra-fondo-gris.png" alt="Surprised Person" class="image">
+      <div class="image-container" data-animal="Suprised">
+        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/main/retrato-nino-sorprendido-manos-cabeza-mirando-camara-contra-fondo-gris.png" alt="Tiger" class="image">
+        <button class="image-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-YhTcXy_pftysm.mp3">🔊</button>
+      </div>
+      <div class="image-container" data-animal="Strong">
+        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/refs/heads/main/young-male-showing-muscles-arms-grey-t-shirt-looking-powerful.png" alt="Fish" class="image">
+        <button class="image-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-o3uPEr_nyec3s.mp3">🔊</button>
+      </div>
+      <div class="image-container" data-animal="Smart">
+        <img src="https://raw.githubusercontent.com/Mark2024Eze/Acrividad-ingles2/refs/heads/main/positive-friendly-guy-having-idea.png" alt="Horse" class="image">
+        <button class="image-button" data-audio="https://res.cloudinary.com/deyhxjgsn/video/upload/v1728507989/luvvoice.com-20241009-s5HhQA_y3s8hg.mp3">🔊</button>
       </div>
     </div>
   </div>
 
+  <button class="check-button" onclick="checkAnswers()">Check Answers</button>
+  <button class="reset-button" onclick="resetGame()">Reset</button>
+
+  <!-- Pie de página -->
+  <footer>
+    <p>&copy; Activity Match de animals with the images - Profesora Mariana Cuello © 2024</p>
+  </footer>
+
+  
   <script>
-    const adjectives = document.querySelectorAll('.adjective');
+    let lines = [];
+    let correctCount = 0;
+    let errorCount = 0;
+    const animalMap = {};
+
+    const animals = document.querySelectorAll('.animal');
     const imageContainers = document.querySelectorAll('.image-container');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
-    let selectedAdjective = null;
-    let correctAnswers = 0;
-    let errors = 0;
 
-    const correctMatches = {
-      happy: 'nino-sonriente-aislado-rosa.png',
-      sad: 'retrato-persona-depresion.png',
-      angry: 'retrato-nino-pequeno-lindo-molesto.png',
-      scared: 'pequeno-lindo-nino-rubio-sorprendido-camiseta-roja-sosteniendo-cabeza-manos-mientras-mira-lado-pared-blanca.png',
-      excited: 'expresiones-ninos.png',
-      bored: 'hermosa-nina-jengibre-sentado-piernas-cruzadas-sobre-pared-blanca.png',
-      confused: 'chica-guapa-joven-haciendo-gesto-aislado-pared-blanca.png',
-      surprised: 'retrato-nino-sorprendido-manos-cabeza-mirando-camara-contra-fondo-gris.png'
-    };
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
 
-    const matchedImages = new Set();
-
-    canvas.width = document.querySelector('.container').offsetWidth;
-    canvas.height = document.querySelector('.container').offsetHeight;
-
-    function drawArrow(fromX, fromY, toX, toY) {
-      const headlen = 10; // length of head in pixels
-      const dx = toX - fromX;
-      const dy = toY - fromY;
-      const angle = Math.atan2(dy, dx);
-      ctx.moveTo(fromX, fromY);
-      ctx.lineTo(toX, toY);
-      ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
-      ctx.moveTo(toX, toY);
-      ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+    function drawLine(x1, y1, x2, y2, color) {
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 4;
+      ctx.stroke();
+      ctx.closePath();
     }
 
-    function clearCanvas() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    function updateProgressBar() {
-      const progressBar = document.getElementById('progressBar');
-      const totalAdjectives = adjectives.length;
-      const progressPercentage = (correctAnswers / totalAdjectives) * 100;
-      progressBar.style.width = progressPercentage + '%';
-      progressBar.textContent = Math.round(progressPercentage) + '%';
-    }
-
-    function updateCorrectCounter() {
-      const correctBar = document.getElementById('correctBar');
-      correctBar.textContent = 'Correct: ' + correctAnswers;
-    }
-
-    function updateErrorCounter() {
-      const errorBar = document.getElementById('errorBar');
-      errorBar.textContent = 'Errors: ' + errors;
-    }
-
-    adjectives.forEach(adjective => {
-      adjective.addEventListener('click', () => {
-        if (selectedAdjective) {
-          selectedAdjective.classList.remove('selected');
-        }
-        selectedAdjective = adjective;
-        selectedAdjective.classList.add('selected');
+    animals.forEach(animal => {
+      animal.addEventListener('click', function() {
+        animals.forEach(a => a.classList.remove('selected'));
+        animal.classList.add('selected');
       });
     });
 
-    imageContainers.forEach(container => {
-      container.addEventListener('click', () => {
-        if (selectedAdjective) {
-          const adjectiveText = selectedAdjective.getAttribute('data-adjective');
-          const containerAdjective = container.getAttribute('data-adjective');
-          const adjectiveImage = correctMatches[adjectiveText];
-          const containerImage = container.querySelector('img').src.split('/').pop();
+    imageContainers.forEach(imageContainer => {
+      imageContainer.addEventListener('click', function() {
+        const selectedAnimal = document.querySelector('.animal.selected');
+        if (selectedAnimal) {
+          const x1 = selectedAnimal.offsetLeft + selectedAnimal.offsetWidth;
+          const y1 = selectedAnimal.offsetTop + selectedAnimal.offsetHeight / 2;
+          const x2 = imageContainer.offsetLeft;
+          const y2 = imageContainer.offsetTop + imageContainer.offsetHeight / 2;
 
-          if (adjectiveText === containerAdjective && adjectiveImage === containerImage) {
-            if (!matchedImages.has(containerImage)) {
-              const adjectiveRect = selectedAdjective.getBoundingClientRect();
-              const containerRect = container.getBoundingClientRect();
+          drawLine(x1, y1, x2, y2, '#000'); // Draw line in default color
+          animalMap[selectedAnimal.getAttribute('data-animal')] = imageContainer.getAttribute('data-animal');
+        }
+      });
+    });
 
-              const startX = adjectiveRect.left + adjectiveRect.width / 2 - canvas.getBoundingClientRect().left;
-              const startY = adjectiveRect.top + adjectiveRect.height / 2 - canvas.getBoundingClientRect().top;
-              const endX = containerRect.left + containerRect.width / 2 - canvas.getBoundingClientRect().left;
-              const endY = containerRect.top + containerRect.height / 2 - canvas.getBoundingClientRect().top;
+    function updateProgress() {
+      const total = animals.length;
+      const correctPercent = Math.round((correctCount / total) * 100);
+      const errorPercent = Math.round((errorCount / total) * 100);
 
-              ctx.beginPath();
-              drawArrow(startX, startY, endX, endY);
-              ctx.strokeStyle = '#0066cc';
-              ctx.lineWidth = 2;
-              ctx.stroke();
-              
-              handleCorrectAnswer(containerImage);
-            }
-            selectedAdjective.classList.remove('selected');
-            selectedAdjective = null;
+      document.getElementById('progressBar').style.width = correctPercent + '%';
+      document.getElementById('progressBar').textContent = correctPercent + '%';
+
+      document.getElementById('correctBar').textContent = 'Correct: ' + correctCount;
+      document.getElementById('errorBar').textContent = 'Errors: ' + errorCount;
+    }
+
+    function checkAnswers() {
+      correctCount = 0;
+      errorCount = 0;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      animals.forEach(animal => {
+        const animalName = animal.getAttribute('data-animal');
+        const selectedImage = Array.from(imageContainers).find(image => animalMap[animalName] === image.getAttribute('data-animal'));
+
+        if (selectedImage) {
+          const x1 = animal.offsetLeft + animal.offsetWidth;
+          const y1 = animal.offsetTop + animal.offsetHeight / 2;
+          const x2 = selectedImage.offsetLeft;
+          const y2 = selectedImage.offsetTop + selectedImage.offsetHeight / 2;
+
+          if (animalName === selectedImage.getAttribute('data-animal')) {
+            drawLine(x1, y1, x2, y2, 'green');
+            animal.classList.add('correct');
+            selectedImage.classList.add('correct');
+            correctCount++;
           } else {
-            container.classList.add('incorrect');
-            errors++;
-            updateErrorCounter();
-            setTimeout(() => container.classList.remove('incorrect'), 1000);
-            selectedAdjective.classList.remove('selected');
-            selectedAdjective = null;
+            drawLine(x1, y1, x2, y2, 'red');
+            animal.classList.add('incorrect');
+            selectedImage.classList.add('incorrect');
+            errorCount++;
           }
         }
       });
+
+      updateProgress();
+    }
+
+    function resetGame() {
+      lines = [];
+      correctCount = 0;
+      errorCount = 0;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      animals.forEach(animal => {
+        animal.classList.remove('correct', 'incorrect', 'selected');
+      });
+
+      imageContainers.forEach(imageContainer => {
+        imageContainer.classList.remove('correct', 'incorrect');
+      });
+
+      animalMap = {};
+      updateProgress();
+    }
+
+    function playAudio(audioSrc) {
+      const audio = new Audio(audioSrc);
+      audio.play();
+    }
+
+    document.querySelectorAll('.animal-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const audioSrc = this.getAttribute('data-audio');
+        playAudio(audioSrc);
+      });
     });
 
-    function handleCorrectAnswer(image) {
-      matchedImages.add(image);
-      correctAnswers++;
-      updateProgressBar();
-      updateCorrectCounter();
-    }
+    document.querySelectorAll('.image-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const audioSrc = this.getAttribute('data-audio');
+        playAudio(audioSrc);
+      });
+    });
+
+    <!-- JavaScript para reproducir audio sin seleccionar imágenes o palabras -->
+     
+  document.querySelectorAll('.animal-button').forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.stopPropagation(); // Evita que el clic en el botón de audio seleccione la imagen o palabra
+      const audioSrc = this.getAttribute('data-audio');
+      const audio = new Audio(audioSrc);
+      audio.play();
+    });
+  });
+
   </script>
 </body>
 </html>
